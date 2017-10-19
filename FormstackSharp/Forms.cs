@@ -54,7 +54,7 @@ namespace FormstackSharp
 		public Form[] Get( string token, GetParams settings )
 		{
 			// Execute the request.
-			this.Execute(token, HttpParams.Generate(settings) );
+			this.Execute(token, HttpParams.Generate(settings));
 
 			// Deserialize the json response to a pre-cast type.
 			return JsonConvert.DeserializeObject<Form[]>(this.JSON);
