@@ -3,6 +3,9 @@ using System.Reflection;
 
 namespace FormstackSharp
 {
+	/// <summary>
+	/// HTTP Parameter string base class.
+	/// </summary>
 	public class HttpParams : Dictionary<string, string>
 	{
 		/// <summary>
@@ -34,17 +37,23 @@ namespace FormstackSharp
 			return paramString;
 		}
 
-		public static HttpParams Generate( object obj )
+		/// <summary>
+		/// Public overridable param string generation method.
+		/// </summary>
+		/// <param name="obj">Parameter object</param>
+		/// <returns>HTTP Param string.</returns>
+		public virtual string Generate( object obj )
 		{
+			// Create a new params object.
 			var httpParams = new HttpParams();
 
+			// Process each property of the type.
 			PropertyInfo[] properties = obj.GetType().GetProperties();
 			foreach (PropertyInfo p in properties)
-			{
 				httpParams.Add(p.Name, p.GetValue(obj).ToString());
-			}
 
-			return httpParams;
+			// Return the object as a param string.
+			return httpParams.ToString();
 		}
 	}
 }

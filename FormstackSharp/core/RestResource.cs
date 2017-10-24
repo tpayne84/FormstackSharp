@@ -3,14 +3,14 @@
 namespace FormstackSharp
 {
 	/// <summary>
-	/// Base REST Resource class.
+	/// Base REST API class.
 	/// </summary>
 	public abstract class RestResource
 	{
 		/// <summary>
 		/// Endpoint for the rest resource.
 		/// </summary>
-		public abstract string Endpoint { get; protected set; }
+		public abstract string Endpoint { get; }
 
 		/// <summary>
 		/// Gets the json.
@@ -36,11 +36,12 @@ namespace FormstackSharp
 		/// </summary>
 		/// <returns>The initialize.</returns>
 		/// <param name="token">Auth token.</param>
+		/// <param name="endpoint">HTTP endpoint.</param>
 		/// <param name="parameters">HTTP params.</param>
-		public async void Execute(string token, HttpParams parameters)
+		public async void Execute(string token, string endpoint, string parameters)
 		{
 			// Create the HTTP request.
-			this.request = (HttpWebRequest)WebRequest.Create($"https://www.formstack.com/api/v2/{this.Endpoint}.json" + parameters);
+			this.request = (HttpWebRequest)WebRequest.Create($"https://www.formstack.com/api/v2/{endpoint}.json" + parameters);
 
 			// Assign the method.
 			this.request.Method = "Post";

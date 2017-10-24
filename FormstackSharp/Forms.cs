@@ -22,7 +22,7 @@ namespace FormstackSharp
 		/// <summary>
 		/// HTTP Get request params.
 		/// </summary>
-		public class GetParams
+		public class GetParams : HttpParams
 		{
 			/// <summary>
 			/// Flag to return forms in lists separated by folder.
@@ -54,7 +54,7 @@ namespace FormstackSharp
 		public Form[] Get( string token, GetParams settings )
 		{
 			// Execute the request.
-			this.Execute(token, HttpParams.Generate(settings));
+			this.Execute(token, settings.Generate(settings));
 
 			// Deserialize the json response to a pre-cast type.
 			return JsonConvert.DeserializeObject<Form[]>(this.JSON);
@@ -71,9 +71,24 @@ namespace FormstackSharp
 		/// </summary>
 		public enum FormLayout
 		{
+			/// <summary>
+			/// Single column layout.
+			/// </summary>
 			SingleColumn = 1,
+
+			/// <summary>
+			/// Two column layout.
+			/// </summary>
 			TwoColumn = 2,
+
+			/// <summary>
+			/// Three column layout.
+			/// </summary>
 			ThreeColumn = 3,
+
+			/// <summary>
+			/// Four column layout.
+			/// </summary>
 			FourColumn = 4
 		}
 
@@ -82,23 +97,66 @@ namespace FormstackSharp
 		/// </summary>
 		public static class LanguageCodes
 		{
+			/// <summary>
+			/// Arabic language code.
+			/// </summary>
 			public const string Arabic = "ar";
+
+			/// <summary>
+			/// Bulgarian language code.
+			/// </summary>
 			public const string Bulgarian = "bg";
+
+			/// <summary>
+			/// Catalan language code.
+			/// </summary>
 			public const string Catalan = "ca";
+
+			/// <summary>
+			/// Chinese language code.
+			/// </summary>
 			public const string Chinese = "zh";
+
+			/// <summary>
+			/// Czech language code.
+			/// </summary>
 			public const string Czech = "cs";
+
+			/// <summary>
+			/// Danish language code.
+			/// </summary>
 			public const string Danish = "da";
+
+			/// <summary>
+			/// German language code.
+			/// </summary>
 			public const string German = "de";
+
+			/// <summary>
+			/// Greek language code.
+			/// </summary>
 			public const string Greek = "el";
+
+			/// <summary>
+			/// English language code.
+			/// </summary>
 			public const string English = "en";
+
+			/// <summary>
+			/// Spanish language code.
+			/// </summary>
 			public const string Spanish = "es";
+
+			/// <summary>
+			/// Finnish language code.
+			/// </summary>
 			public const string Finnish = "fi";
 		}
 
 		/// <summary>
 		/// HTTP Post request params.
 		/// </summary>
-		public class PostParams
+		public class PostParams : HttpParams
 		{
 			/// <summary>
 			/// The form name.
@@ -195,7 +253,7 @@ namespace FormstackSharp
 		public Form Post(string token, PostParams settings)
 		{
 			// Execute the request.
-			this.Execute(token, HttpParams.Generate(settings));
+			this.Execute(token, settings.Generate(settings));
 
 			// Deserialize the json response to a pre-cast type.
 			return JsonConvert.DeserializeObject<Form>(this.JSON);
@@ -210,7 +268,7 @@ namespace FormstackSharp
 		/// <summary>
 		/// HTTP Post request params.
 		/// </summary>
-		public class PutParams
+		public class PutParams : HttpParams
 		{
 			/// <summary>
 			/// The form name.
@@ -307,7 +365,7 @@ namespace FormstackSharp
 		public ApiResponse Put(string token, PutParams settings)
 		{
 			// Execute the request.
-			this.Execute(token, HttpParams.Generate(settings));
+			this.Execute(token, settings.Generate(settings));
 
 			// Deserialize the json response to a pre-cast type.
 			return JsonConvert.DeserializeObject<ApiResponse>(this.JSON);

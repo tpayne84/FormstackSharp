@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace FormstackSharp
 {
@@ -10,7 +11,7 @@ namespace FormstackSharp
 		/// <summary>
 		/// Field resource endpoint.
 		/// </summary>
-		public override string Endpoint { get; protected set; } = "field";
+		public override string Endpoint { get; } = "field";
 	}
 
 	/// <summary>
@@ -21,19 +22,13 @@ namespace FormstackSharp
 		/// <summary>
 		/// HTTP Get request params.
 		/// </summary>
-		public class GetParams
+		public class GetParams : HttpParams
 		{
 			/// <summary>
-			/// Specific field ID.
+			/// Form ID to get the fields from.
 			/// </summary>
 			[JsonProperty("id")]
-			bool ID { get; set; } = false;
-
-			/// <summary>
-			/// Form ID.
-			/// </summary>
-			[JsonProperty("form_id")]
-			int FormID { get; set; } = 1;
+			bool FormID { get; set; } = false;
 		}
 
 		/// <summary>
@@ -44,8 +39,16 @@ namespace FormstackSharp
 		/// <returns><see cref="Field[]"/> of all fields for the specified <see cref="Form"/>.</returns>
 		public Field[] Get( string token, GetParams settings )
 		{
+			// Be sure the form ID is passed.
+			if( !settings.ContainsKey("FormID") )
+				throw new ArgumentException("FormID");
+
+			// Extract the form id.
+			string formId;
+			settings.TryGetValue("FormID", out formId);
+
 			// Execute the request.
-			this.Execute(token, HttpParams.Generate(settings));
+			this.Execute(token, $"form/{formId}/{this.Endpoint}", string.Empty );
 
 			// Deserialize the json response to a pre-cast type.
 			return JsonConvert.DeserializeObject<Field[]>(this.JSON);
@@ -71,7 +74,7 @@ namespace FormstackSharp
 		public Field[] Post(string token, PostParams settings)
 		{
 			// Execute the request.
-			this.Execute(token, HttpParams.Generate(settings));
+			this.Execute(token, "TODO",  settings.Generate(settings));
 
 			// Deserialize the json response to a pre-cast type.
 			return JsonConvert.DeserializeObject<Field[]>(this.JSON);
